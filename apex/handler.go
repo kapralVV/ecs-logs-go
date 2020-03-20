@@ -4,7 +4,7 @@ import (
 	"io"
 
 	apex "github.com/apex/log"
-	"github.com/segmentio/ecs-logs-go"
+	"github.com/kapralVV/ecs-logs-go"
 )
 
 type Config struct {
