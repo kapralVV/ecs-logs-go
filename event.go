@@ -65,7 +65,7 @@ type Event struct {
 	Time    time.Time `json:"time"`
 	Info    EventInfo `json:"info"`
 	Data    EventData `json:"data"`
-	Message string    `json:"message"`
+	Message string    `json:"message,string"`
 }
 
 func Eprintf(level Level, format string, args ...interface{}) Event {
