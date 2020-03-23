@@ -1,6 +1,7 @@
 package apex_ecslogs
 
 import (
+	"encoding/json"
 	"io"
 
 	apex "github.com/apex/log"
