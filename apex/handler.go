@@ -53,9 +53,9 @@ func IsJSON(str string) bool {
 func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 	var message json.RawMessage
 	if IsJSON(entry.Message) {
-		message := json.RawMessage(entry.Message)
+		message = json.RawMessage(entry.Message)
 	} else {
-		message := json.RawMessage(strconv.Quote(entry.Message))
+		message = json.RawMessage(strconv.Quote(entry.Message))
 	}
 	return ecslogs.Event{
 		Level:   makeLevel(entry.Level),
