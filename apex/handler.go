@@ -49,7 +49,7 @@ func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 		Info:    makeEventInfo(entry, source),
 		Data:    makeEventData(entry),
 		Time:    entry.Timestamp,
-		Message: entry.Message,
+		Message: json.RawMessage(entry.Message)
 	}
 }
 
