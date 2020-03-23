@@ -53,7 +53,15 @@ func IsJSON(str string) bool {
 func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 	var message json.RawMessage
 	if IsJSON(entry.Message) {
-		message = json.RawMessage(entry.Message)
+		if unquotEdStr, err := strconv.Unquote(entry.Message); err == nil {
+			if IsJSON(unquotEdStr) {
+				message = json.RawMessage(unquotEdStr)
+			} else {
+				message = json.RawMessage(entry.Message)
+			}
+		} else {
+			message = json.RawMessage(entry.Message)
+		}
 	} else {
 		message = json.RawMessage(strconv.Quote(entry.Message))
 	}
