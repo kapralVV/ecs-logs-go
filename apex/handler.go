@@ -45,9 +45,14 @@ func MakeEvent(entry *apex.Entry) ecslogs.Event {
 	return makeEvent(entry, "")
 }
 
+func IsJSON(str string) bool {
+    var js json.RawMessage
+    return json.Unmarshal([]byte(str), &js) == nil
+}
+
 func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 	var message json.RawMessage
-	if json.Valid(entry.Message) {
+	if IsJSON(entry.Message) {
 		message := json.RawMessage(entry.Message)
 	} else {
 		message := json.RawMessage(strconv.Quote(entry.Message))
