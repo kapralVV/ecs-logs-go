@@ -76,7 +76,7 @@ func Eprint(level Level, args ...interface{}) Event {
 	return MakeEvent(level, sprint(args...), args...)
 }
 
-func MakeEvent(level Level, message string, values ...interface{}) Event {
+func MakeEvent(level Level, message json.RawMessage, values ...interface{}) Event {
 	var errors []EventError
 
 	for _, val := range values {
