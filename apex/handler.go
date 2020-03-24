@@ -58,7 +58,7 @@ func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 			if IsJSON(unquotEdStr) {
 				message = json.RawMessage(unquotEdStr)
 			} else {
-				message = json.RawMessage(entry.Message)
+				message = json.RawMessage(fmt.Sprintf(`{"string": %s}`, strconv.Quote(entry.Message)))
 			}
 		} else {
 			message = json.RawMessage(fmt.Sprintf(`{"string": %s}`, strconv.Quote(entry.Message)))
