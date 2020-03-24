@@ -64,7 +64,7 @@ func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 			message = json.RawMessage(entry.Message)
 		}
 	} else {
-		message = json.RawMessage(fmt.Sprintf(`{"string": "%s"}`, strconv.Quote(entry.Message)))
+		message = json.RawMessage(fmt.Sprintf(`{"string": %s}`, strconv.Quote(entry.Message)))
 	}
 	return ecslogs.Event{
 		Level:   makeLevel(entry.Level),
