@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"strconv"
 	"io"
-	"fmt"
 
 	apex "github.com/apex/log"
 	"github.com/kapralVV/ecs-logs-go"
