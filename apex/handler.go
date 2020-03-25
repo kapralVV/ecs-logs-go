@@ -2,7 +2,6 @@ package apex_ecslogs
 
 import (
 	"encoding/json"
-	"strconv"
 	"io"
 
 	apex "github.com/apex/log"
