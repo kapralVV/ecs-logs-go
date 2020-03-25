@@ -58,8 +58,6 @@ func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 		Data:    makeEventData(entry),
 		Time:    entry.Timestamp,
 		Message: json.RawMessage(entry.Message),
-		IsMessageJson: entry.IsMessageJson,
-		WasMessagequoted: entry.WasMessagequoted,
 	}
 }
 
