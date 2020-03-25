@@ -26,7 +26,7 @@ func (f formatter) Format(entry *logrus.Entry) (b []byte, err error) {
 	var source string
 
 	if f.FuncInfo != nil {
-		if pc, ok := ecslogs.GuessCaller(f.Depth, 10, "github.com/segmentio/ecs-logs", "github.com/sirupsen/logrus"); ok {
+		if pc, ok := ecslogs.GuessCaller(f.Depth, 10, "github.com/kapralVV/ecs-logs", "github.com/sirupsen/logrus"); ok {
 			if info, ok := f.FuncInfo(pc); ok {
 				source = info.String()
 			}

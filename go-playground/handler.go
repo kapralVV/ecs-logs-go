@@ -29,7 +29,7 @@ func NewHandlerWith(c Config) log.Handler {
 	return &handler{fn: func(entry log.Entry) {
 		var source string
 
-		if pc, ok := ecslogs.GuessCaller(c.Depth, 10, "github.com/segmentio/ecs-logs", "github.com/go-playground/log"); ok {
+		if pc, ok := ecslogs.GuessCaller(c.Depth, 10, "github.com/kapralVV/ecs-logs", "github.com/go-playground/log"); ok {
 			if info, ok := c.FuncInfo(pc); ok {
 				source = info.String()
 			}
