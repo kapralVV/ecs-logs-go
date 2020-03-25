@@ -45,24 +45,48 @@ func MakeEvent(entry *apex.Entry) ecslogs.Event {
 	return makeEvent(entry, "")
 }
 
-func IsJSON(str string) bool {
+func stringToRawMessage(str string) (json.RawMessage, bool) {
     var js json.RawMessage
-    return json.Unmarshal([]byte(str), &js) == nil
+	err := json.Unmarshal([]byte(str), &js)
+	return js, (err == nil)
 }
 
 func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 	var message json.RawMessage
-	if IsJSON(entry.Message) {
-		message = json.RawMessage(entry.Message)
+	var isJsone bool
+	var isQuoted bool
+		raw, ok := stringToRawMessage(entry)
+	if ok {
+		if unquoted, err :=  strconv.Unquote(entry); err == nil {
+			if raw1, ok1 := stringToRawMessage(unquoted); ok1 {
+				message = raw1
+				isJsone = true
+				isQuoted = true
+			} else {
+				message = raw
+				isQuoted = false
+				isJsone = true
+			}
+		} else {
+			message = raw
+			isQuoted = false
+			isJsone = true
+		}
 	} else {
-		message = json.RawMessage(strconv.Quote(entry.Message))
+		string_raw, _ := json.Marshal(entry)
+		message = json.RawMessage(string(string_raw))
+		isJsone = false
+		isQuoted = false
 	}
+
 	return ecslogs.Event{
 		Level:   makeLevel(entry.Level),
 		Info:    makeEventInfo(entry, source),
 		Data:    makeEventData(entry),
 		Time:    entry.Timestamp,
 		Message: message,
+		IsMessageJson: isJsone,
+		WasMessagequoted: isQuoted,
 	}
 }
 

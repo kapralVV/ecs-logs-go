@@ -66,6 +66,8 @@ type Event struct {
 	Info    EventInfo `json:"info"`
 	Data    EventData `json:"data"`
 	Message json.RawMessage `json:"message"`
+	IsMessageJson bool `json:"is_message_json"`
+	WasMessagequoted bool `json:"was_message_quoted"`
 }
 
 // func Eprintf(level Level, format string, args ...interface{}) Event {
