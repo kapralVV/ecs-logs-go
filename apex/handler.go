@@ -55,9 +55,10 @@ func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 	var message json.RawMessage
 	var isJsone bool
 	var isQuoted bool
-		raw, ok := stringToRawMessage(entry)
+
+	raw, ok := stringToRawMessage(entry.Message)
 	if ok {
-		if unquoted, err :=  strconv.Unquote(entry); err == nil {
+		if unquoted, err :=  strconv.Unquote(entry.Message); err == nil {
 			if raw1, ok1 := stringToRawMessage(unquoted); ok1 {
 				message = raw1
 				isJsone = true
@@ -73,7 +74,7 @@ func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 			isJsone = true
 		}
 	} else {
-		string_raw, _ := json.Marshal(entry)
+		string_raw, _ := json.Marshal(entry.Message)
 		message = json.RawMessage(string(string_raw))
 		isJsone = false
 		isQuoted = false
