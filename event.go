@@ -66,7 +66,7 @@ type Event struct {
 	Info    EventInfo `json:"info"`
 	Data    EventData `json:"data"`
 	Message json.RawMessage `json:"message"`
-	IsMessageString bool `json:"is_message_json"`
+	IsMessageString bool `json:"is_string_json"`
 	WasMessagequoted bool `json:"was_message_quoted"`
 }
 
