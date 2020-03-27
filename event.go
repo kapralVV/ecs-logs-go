@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"syscall"
 	"time"
+	"strconv"
 )
 
 type EventError struct {
@@ -114,7 +115,7 @@ func MakeEvent(level Level, message string, values ...interface{}) Event {
 			was_message_quoted = false
 		}
 	} else {
-		string_raw, _ := json.Marshal(s)
+		string_raw, _ := json.Marshal(message)
 		rawJsonMessage = json.RawMessage(string(string_raw))
 		is_message_string = true
 		was_message_quoted = false
