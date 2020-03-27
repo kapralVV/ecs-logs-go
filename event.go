@@ -66,7 +66,7 @@ type Event struct {
 	Info    EventInfo `json:"info"`
 	Data    EventData `json:"data"`
 	Message json.RawMessage `json:"message"`
-	IsMessageString bool `json:"is_string_json"`
+	IsMessageString bool `json:"is_message_string"`
 	WasMessagequoted bool `json:"was_message_quoted"`
 }
 
@@ -78,7 +78,16 @@ type Event struct {
 // 	return MakeEvent(level, sprint(args...), args...)
 // }
 
-func MakeEvent(level Level, message json.RawMessage, values ...interface{}) Event {
+func stringToRawMessage(str string) (json.RawMessage, bool) {
+    var js json.RawMessage
+	err := json.Unmarshal([]byte(str), &js)
+	return js, (err == nil)
+}
+
+func MakeEvent(level Level, message string, values ...interface{}) Event {
+	var rawJsonMessage json.RawMessage
+	var is_message_string bool
+	var was_message_quoted bool
 	var errors []EventError
 
 	for _, val := range values {
@@ -88,11 +97,37 @@ func MakeEvent(level Level, message json.RawMessage, values ...interface{}) Even
 		}
 	}
 
+	if raw, ok := stringToRawMessage(message); ok {
+		if unquoted, err :=  strconv.Unquote(message); err == nil {
+			if raw1, ok1 := stringToRawMessage(unquoted); ok1 {
+				rawJsonMessage = raw1
+				is_message_string = false
+				was_message_quoted = true
+			} else {
+				rawJsonMessage = raw
+				is_message_string = false
+				was_message_quoted = false
+			}
+		} else {
+			rawJsonMessage = raw
+			is_message_string = false
+			was_message_quoted = false
+		}
+	} else {
+		string_raw, _ := json.Marshal(s)
+		rawJsonMessage = json.RawMessage(string(string_raw))
+		is_message_string = true
+		was_message_quoted = false
+	}
+
+
 	return Event{
 		Info:    EventInfo{Errors: errors},
 		Data:    EventData{},
 		Level:   level,
-		Message: message,
+		Message: rawJsonMessage,
+		IsMessageString: is_message_string,
+		WasMessagequoted: was_message_quoted,
 	}
 }
 
