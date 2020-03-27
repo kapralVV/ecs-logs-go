@@ -53,7 +53,7 @@ func stringToRawMessage(str string) (json.RawMessage, bool) {
 
 func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 	var message json.RawMessage
-	var isJsone bool
+	var isString bool
 	var isQuoted bool
 
 	raw, ok := stringToRawMessage(entry.Message)
@@ -61,22 +61,22 @@ func makeEvent(entry *apex.Entry, source string) ecslogs.Event {
 		if unquoted, err :=  strconv.Unquote(entry.Message); err == nil {
 			if raw1, ok1 := stringToRawMessage(unquoted); ok1 {
 				message = raw1
-				isJsone = true
+				isString = false
 				isQuoted = true
 			} else {
 				message = raw
 				isQuoted = false
-				isJsone = true
+				isString = false
 			}
 		} else {
 			message = raw
 			isQuoted = false
-			isJsone = true
+			isString = false
 		}
 	} else {
 		string_raw, _ := json.Marshal(entry.Message)
 		message = json.RawMessage(string(string_raw))
-		isJsone = false
+		isString = true
 		isQuoted = false
 	}
 
